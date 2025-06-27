@@ -6,12 +6,14 @@ import { COLORS } from '../../constants';
 import VisuallyHidden from '../VisuallyHidden';
 
 const sizes = {
-  small: { width: 370, height: 8 },
-  medium: { width: 370, height: 12 },
-  large: { width: 370, height: 24 },
+  small: { width: 370, height: 8, padding: 0 },
+  medium: { width: 370, height: 12, padding: 0 },
+  large: { width: 370, height: 24, padding: 4 },
 };
 
 const ProgressBar = ({ value, size }) => {
+  const styles = sizes[size];
+
   return (
     <div>
       <Label id="loadinglabel">Loading</Label>
@@ -20,15 +22,19 @@ const ProgressBar = ({ value, size }) => {
         aria-labelledby="loadinglabel"
         aria-valuenow={value}
       >
-        <Container width={sizes.large.width} height={sizes.large.height}>
+        <Container
+          width={styles.width}
+          height={styles.height}
+          style={{ '--padding': styles.padding + 'px' }}
+        >
           <rect
-            height={sizes.large.height}
-            width={sizes.large.width}
+            height={styles.height}
+            width={styles.width}
             fill={COLORS.gray50}
           />
           <rect
-            height={sizes.large.height}
-            width={(sizes.large.width / 100) * value}
+            height={styles.height}
+            width={(styles.width / 100) * value}
             fill={COLORS.primary}
           />
         </Container>
@@ -47,7 +53,7 @@ const Label = styled.span`
 const Container = styled.svg`
   border-radius: 8px;
   box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
-  padding: 4px;
+  padding: var(--padding);
 `;
 
 export default ProgressBar;
